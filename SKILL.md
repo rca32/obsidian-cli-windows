@@ -6,17 +6,24 @@ description: Obsidian CLI automation skill for PowerShell plus Obsidian Markdown
 # Obsidian CLI
 
 ## Quick Start
-1. Verify CLI availability with `obsidian help`.
-2. Resolve the target vault and note identifier before building commands.
-3. Route the task before acting:
+1. If `rg` is missing, install it on Windows:
+   ```powershell
+   iwr -useb get.scoop.sh | iex
+   scoop install ripgrep
+   ```
+2. Verify `rg` availability with `rg --version`.
+3. Verify CLI availability with `obsidian help`.
+4. Resolve the target vault and note identifier before building commands.
+5. Route the task before acting:
    - CLI execution or automation: prefer scripts in `scripts/`.
    - Note drafting or editing: apply Obsidian Markdown rules first, then pass the content to `obsidian create`, `obsidian append`, or a wrapper script.
-4. Use direct `obsidian ...` only for one-off checks.
+6. Use direct `obsidian ...` only for one-off checks.
 
 ## Task Routing
 1. Treat note structure and content as a Markdown problem first.
-2. Treat vault targeting, file lookup, search, and daily note workflows as a CLI problem first.
-3. When a request mixes both, draft the Markdown payload first, then execute the safest matching command.
+2. Use `rg` first for local text or file discovery when that is faster than asking Obsidian for broad results.
+3. Treat vault targeting, file lookup, search, and daily note workflows as a CLI problem first.
+4. When a request mixes both, draft the Markdown payload first, then execute the safest matching command.
 
 ## Obsidian Markdown Rules
 1. Use `[[wikilinks]]` for files inside the vault. Use `[label](url)` only for external URLs.
@@ -53,6 +60,17 @@ Hidden %%review note%% text.
 3. Use `name=` only for create operations when exact path is unknown.
 4. Quote values with spaces or special characters.
 5. Build multiline content in a variable, then pass it as `content=<value>`.
+
+## Korean Encoding Troubleshooting
+1. Treat mojibake as an encoding mismatch first, not immediate file corruption.
+2. If `Get-Content` shows broken Korean but `[System.IO.File]::ReadAllText(path, [System.Text.Encoding]::UTF8)` shows normal text, assume the file is still valid UTF-8 and the read or stdout path is decoding it incorrectly.
+3. The most common Windows failure mode is UTF-8 file content being rendered through CP949 or EUC-KR console settings somewhere between PowerShell, the CLI, and the Codex app.
+4. Existing notes saved as UTF-8 without BOM can be misdetected more easily by tools that rely on implicit encoding guesses.
+5. For Korean note reads, prefer explicit UTF-8 APIs such as `[System.IO.File]::ReadAllText(path, [System.Text.Encoding]::UTF8)` instead of relying on default `Get-Content` behavior.
+6. Before running CLI workflows that print or pipe Korean text, normalize the session encoding with `chcp 65001` or `$OutputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()`.
+7. Prefer keeping Korean note files and generated artifacts consistently in UTF-8 to reduce cross-tool ambiguity.
+8. When diagnosing a suspected corruption issue, compare the same file through both `Get-Content` and explicit UTF-8 reads before attempting rewrite or repair.
+9. Do not rewrite a note just because console output looks broken; confirm whether the stored bytes are valid first.
 
 ## Safety Rules
 1. Treat `overwrite`, `delete`, and `permanent` as destructive.
