@@ -1,0 +1,4 @@
+interface:
+  display_name: "Obsidian CLI"
+  short_description: "Windows-safe Obsidian CLI workflows plus Obsidian Markdown authoring guidance"
+  default_prompt: "Use $obsidian-cli to resolve vault/path, apply Obsidian Markdown rules when drafting note content, run the safest matching PowerShell workflow, and summarize command + output + risks in 3 blocks."

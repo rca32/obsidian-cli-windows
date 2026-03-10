@@ -1,0 +1,59 @@
+﻿{
+    "suite":  "smoke",
+    "vault":  "myworkkb",
+    "timestamp":  "20260310-085550",
+    "total":  7,
+    "passed":  7,
+    "failed":  0,
+    "results":  [
+                    {
+                        "Name":  "version command works",
+                        "Passed":  true,
+                        "DurationMs":  789.14,
+                        "Error":  "",
+                        "Command":  "obsidian version"
+                    },
+                    {
+                        "Name":  "target vault exists",
+                        "Passed":  true,
+                        "DurationMs":  781.58,
+                        "Error":  "",
+                        "Command":  "obsidian vaults"
+                    },
+                    {
+                        "Name":  "create note with unicode and multiline content",
+                        "Passed":  true,
+                        "DurationMs":  2259.81,
+                        "Error":  "",
+                        "Command":  "obsidian create path=tmp/obsidian-cli-tests/smoke-20260310-085543-한글.md vault=myworkkb \"content=# Obsidian CLI Smoke\nobtest-20260310-085543\nline-2\" overwrite"
+                    },
+                    {
+                        "Name":  "read note and verify token",
+                        "Passed":  true,
+                        "DurationMs":  826.16,
+                        "Error":  "",
+                        "Command":  "obsidian read vault=myworkkb path=tmp/obsidian-cli-tests/smoke-20260310-085543-한글.md"
+                    },
+                    {
+                        "Name":  "search finds created token",
+                        "Passed":  true,
+                        "DurationMs":  1354.8,
+                        "Error":  "",
+                        "Command":  "obsidian search query=obtest-20260310-085543 path=tmp/obsidian-cli-tests format=text vault=myworkkb"
+                    },
+                    {
+                        "Name":  "daily path is readable",
+                        "Passed":  true,
+                        "DurationMs":  1279.16,
+                        "Error":  "",
+                        "Command":  "obsidian daily:path vault=myworkkb"
+                    },
+                    {
+                        "Name":  "overwrite protection blocks unsafe call",
+                        "Passed":  true,
+                        "DurationMs":  55.84,
+                        "Error":  "",
+                        "Command":  ""
+                    }
+                ]
+}

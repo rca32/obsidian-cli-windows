@@ -1,0 +1,22 @@
+﻿suite: smoke
+vault: myworkkb
+timestamp: 20260310-085550
+total: 7
+passed: 7
+failed: 0
+
+[PASS] version command works (789.14 ms)
+  command: obsidian version
+[PASS] target vault exists (781.58 ms)
+  command: obsidian vaults
+[PASS] create note with unicode and multiline content (2259.81 ms)
+  command: obsidian create path=tmp/obsidian-cli-tests/smoke-20260310-085543-한글.md vault=myworkkb "content=# Obsidian CLI Smoke
+obtest-20260310-085543
+line-2" overwrite
+[PASS] read note and verify token (826.16 ms)
+  command: obsidian read vault=myworkkb path=tmp/obsidian-cli-tests/smoke-20260310-085543-한글.md
+[PASS] search finds created token (1354.8 ms)
+  command: obsidian search query=obtest-20260310-085543 path=tmp/obsidian-cli-tests format=text vault=myworkkb
+[PASS] daily path is readable (1279.16 ms)
+  command: obsidian daily:path vault=myworkkb
+[PASS] overwrite protection blocks unsafe call (55.84 ms)
